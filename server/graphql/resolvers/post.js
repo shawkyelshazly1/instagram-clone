@@ -1,5 +1,6 @@
 const { UserInputError, AuthenticationError } = require("apollo-server-core");
 const { isAuthenticated } = require("../../middlewares/auth");
+const comment = require("../../models/comment");
 const following = require("../../models/following");
 const post = require("../../models/post");
 const Post = require("../../models/post");
@@ -92,6 +93,7 @@ const postResolver = {
       // delete all likes related to post
       try {
         const deletedLikes = await PostLike.deleteMany({ postId });
+        const deletedComments = await comment.deleteMany({ postId });
       } catch (error) {
         console.error(error);
       }

@@ -13,6 +13,7 @@ const typeDefs = gql`
     followingsCount: Int!
     followed: Boolean!
   }
+
   type Post {
     id: ID!
     image: String!
@@ -21,6 +22,13 @@ const typeDefs = gql`
     likesCount: Int!
     liked: Boolean!
     commentsCount: Int!
+    comments: [Comment!]
+  }
+
+  type Comment {
+    id: ID!
+    content: String!
+    author: User!
   }
 
   type LoginResponse {
@@ -62,6 +70,10 @@ const typeDefs = gql`
     createPost(image: String!, caption: String!): Post!
     deletePost(postId: ID!): Boolean!
     likeorUnlikePost(postId: ID!): Boolean!
+
+    #comment mutation
+    addComment(content: String!, postId: ID!): Comment!
+    deleteComment(commentId: ID!): Boolean!
   }
 `;
 
