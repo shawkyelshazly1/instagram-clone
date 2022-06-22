@@ -39,6 +39,7 @@ const typeDefs = gql`
   type Query {
     testQuery: String!
     loadUserProfile(username: String!): User!
+    currentUser: User!
 
     # loadpost query
     loadPost(postId: ID!): Post!
