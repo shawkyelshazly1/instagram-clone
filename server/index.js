@@ -10,6 +10,7 @@ const mongoose = require("mongoose");
 const typeDefs = require("./graphql/typeDefs"),
   resolvers = require("./graphql/resolvers/index");
 const refreshTokenController = require("./controllers/authController");
+const cors = require("cors");
 
 // setting dotenv env
 require("dotenv").config();
@@ -23,6 +24,7 @@ require("dotenv").config();
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
   app.disable("x-powered-by");
+  app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
   // refresh token route
   app.post("/refresh_token", refreshTokenController);

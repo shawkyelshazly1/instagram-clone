@@ -1,7 +1,7 @@
 const { UserInputError } = require("apollo-server-express");
 const { isAuthenticated } = require("../../middlewares/auth");
-const user = require("../../models/user");
 const following = require("../../models/following");
+const user = require("../../models/user");
 
 const userResolver = {
   Query: {
@@ -14,6 +14,12 @@ const userResolver = {
       if (!userFound) {
         throw new UserInputError("User not found!");
       }
+      return userFound;
+    },
+
+    //load current user
+    async currentUser(_, __, ctx) {
+      const userFound = await user.findById(ctx.req.payload.userId);
       return userFound;
     },
   },
