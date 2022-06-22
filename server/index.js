@@ -6,11 +6,11 @@ const { ApolloServer } = require("apollo-server-express");
 const {
   ApolloServerPluginLandingPageGraphQLPlayground,
 } = require("apollo-server-core");
-
 const mongoose = require("mongoose");
-
 const typeDefs = require("./graphql/typeDefs"),
   resolvers = require("./graphql/resolvers/index");
+const refreshTokenController = require("./controllers/authController");
+
 // setting dotenv env
 require("dotenv").config();
 
@@ -22,6 +22,10 @@ require("dotenv").config();
   app.use(express.json({ limit: "50mb" }));
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
+  app.disable("x-powered-by");
+
+  // refresh token route
+  app.post("/refresh_token", refreshTokenController);
 
   // setting Apollo server above express
   const server = new ApolloServer({

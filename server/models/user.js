@@ -12,6 +12,7 @@ const userSchema = new Schema(
       trim: true,
       default: "https://tinyurl.com/5n9bhd75",
     },
+    tokenVersion: { type: Number, required: true, default: 0 },
   },
   { timestamps: true }
 );

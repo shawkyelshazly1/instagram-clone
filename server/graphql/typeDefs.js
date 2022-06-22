@@ -11,12 +11,16 @@ const typeDefs = gql`
     posts: [Post!]
     followersCount: Int!
     followingsCount: Int!
+    followed: Boolean!
   }
   type Post {
     id: ID!
     image: String!
     caption: String!
     author: User!
+    likesCount: Int!
+    liked: Boolean!
+    commentsCount: Int!
   }
 
   type LoginResponse {
@@ -26,6 +30,12 @@ const typeDefs = gql`
 
   type Query {
     testQuery: String!
+    loadUserProfile(username: String!): User!
+
+    # loadpost query
+    loadPost(postId: ID!): Post!
+    loadUserPosts(userId: ID!): [Post!]
+    loadNewsfeed: [Post!]
   }
 
   type Mutation {
@@ -41,6 +51,17 @@ const typeDefs = gql`
 
     # login mutation
     login(username: String!, password: String!): LoginResponse!
+
+    # logout mutation
+    logout: Boolean!
+
+    # followOrUnfollowUser
+    followOrUnfollowUser(username: String!): Boolean!
+
+    # post mutation
+    createPost(image: String!, caption: String!): Post!
+    deletePost(postId: ID!): Boolean!
+    likeorUnlikePost(postId: ID!): Boolean!
   }
 `;
 

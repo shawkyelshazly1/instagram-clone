@@ -2,7 +2,13 @@ const {
   valdiateRegisterInput,
   validateLoginInput,
 } = require("../../middlewares/ajvValidation");
-const { registerUser, loginUser } = require("../../middlewares/auth");
+const {
+  registerUser,
+  loginUser,
+  sendRefreshToken,
+  generateRefreshToken,
+  generateAccessToken,
+} = require("../../middlewares/auth");
 
 const authResolver = {
   Mutation: {
@@ -14,13 +20,22 @@ const authResolver = {
     },
 
     // login mutation
-    async login(_, loginDataObj) {
+    async login(_, loginDataObj, { res }) {
       await validateLoginInput(loginDataObj);
       const user = await loginUser(loginDataObj);
+
+      await sendRefreshToken(res, await generateRefreshToken(user));
+
       return {
-        accessToken: "asdsad",
+        accessToken: await generateAccessToken(user),
         user,
       };
+    },
+
+    //logout mutation
+    async logout(_, __, { req, res }) {
+      sendRefreshToken(res, "");
+      return true;
     },
   },
 };
