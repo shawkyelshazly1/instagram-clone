@@ -87,7 +87,6 @@ async function isAuthenticated(ctx) {
       accessToken,
       process.env.ACCESS_TOKEN_SECRET
     );
-
     ctx.req.payload = payload;
   } catch (error) {
     consola.error(error);
