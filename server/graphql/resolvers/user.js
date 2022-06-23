@@ -19,6 +19,7 @@ const userResolver = {
 
     //load current user
     async currentUser(_, __, ctx) {
+      await isAuthenticated(ctx);
       const userFound = await user.findById(ctx.req.payload.userId);
       return userFound;
     },
