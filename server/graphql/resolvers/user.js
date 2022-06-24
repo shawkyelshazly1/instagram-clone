@@ -60,7 +60,7 @@ const userResolver = {
         });
       }
 
-      return true;
+      return userFound;
     },
   },
 };

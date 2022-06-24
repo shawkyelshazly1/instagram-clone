@@ -29,6 +29,7 @@ const typeDefs = gql`
     id: ID!
     content: String!
     author: User!
+    post: Post!
   }
 
   type LoginResponse {
@@ -65,12 +66,12 @@ const typeDefs = gql`
     logout: Boolean!
 
     # followOrUnfollowUser
-    followOrUnfollowUser(username: String!): Boolean!
+    followOrUnfollowUser(username: String!): User!
 
     # post mutation
     createPost(image: String!, caption: String!): Post!
     deletePost(postId: ID!): Boolean!
-    likeorUnlikePost(postId: ID!): Boolean!
+    likeorUnlikePost(postId: ID!): Post!
 
     #comment mutation
     addComment(content: String!, postId: ID!): Comment!

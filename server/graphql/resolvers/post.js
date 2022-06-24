@@ -6,6 +6,7 @@ const post = require("../../models/post");
 const Post = require("../../models/post");
 const ObjectId = require("mongoose").Types.ObjectId;
 const PostLike = require("../../models/postLike");
+const { cloudinaryAPI } = require("../../utils/cloudinaryAPI");
 
 const postResolver = {
   Query: {
@@ -52,6 +53,7 @@ const postResolver = {
         },
       ]);
 
+      if (followingsIds.length === 0) return [];
       followingsIds = followingsIds[0].ids;
 
       const posts = await post
@@ -66,9 +68,21 @@ const postResolver = {
     async createPost(_, { image, caption }, ctx) {
       await isAuthenticated(ctx);
 
+      console.log("started uploading");
+      let imageURL = "";
+      try {
+        const cloudinaryRes = await cloudinaryAPI.uploader.upload(image, {
+          upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
+        });
+        imageURL = cloudinaryRes.secure_url;
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to upload your image, something went wrong!");
+      }
+
       const newPost = new Post({
         caption,
-        image,
+        image: imageURL,
         authorId: ctx.req.payload.userId,
       });
 
@@ -127,7 +141,7 @@ const postResolver = {
         await newPostLike.save();
       }
 
-      return true;
+      return postFound;
     },
   },
 };

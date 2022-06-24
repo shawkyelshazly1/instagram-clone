@@ -36,4 +36,10 @@ const LOGIN_USER = gql`
   }
 `;
 
-export { REGISTER_USER, LOGIN_USER };
+const LOGOUT_USER = gql`
+  mutation LogoutUser {
+    logout
+  }
+`;
+
+export { REGISTER_USER, LOGIN_USER, LOGOUT_USER };

@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Main from "./pages/Main";
 import PrivateRouter from "./pages/PrivateRouter";
+import Profile from "./pages/Profile";
 
 export default function RoutesProvider() {
   return (
@@ -15,6 +16,7 @@ export default function RoutesProvider() {
                 <PrivateRouter>
                   <Routes>
                     <Route path="/" element={<Main />} />
+                    <Route path="/:username" element={<Profile />} />
                   </Routes>
                 </PrivateRouter>
               </>

@@ -100,6 +100,11 @@ const resolvers = {
       const user = await User.findById(parent.authorId);
       return user;
     },
+    post: async (parent, __, ctx) => {
+      await isAuthenticated(ctx);
+      const postFound = await post.findById(parent.postId);
+      return postFound;
+    },
   },
   Query: {
     async testQuery(_, __, ctx) {
